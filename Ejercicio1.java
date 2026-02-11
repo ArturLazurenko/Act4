@@ -4,22 +4,70 @@ import java.util.List;
 
 
 public class Ejercicio1 {
-    
+
+    public static void main(String[] args) {
+
+        
+        Dueño dueño = new Dueño("Juan Pérez", 
+        "LOPJ040728HDFRZN09", 
+        "3312345678");
+
+
+        Mascota mascota = new Mascota("Max", 
+        "Perro", 
+        3, 
+        15.5, dueño);
+        dueño.agregarMascota(mascota);
+
+
+        Veterinario vet = new Veterinario(
+                "Dr. Lopez",
+                "3311112233",
+                "Medicina Veterinaria General",
+                5
+        );
+
+
+        Servicio servicio = new Servicio("Vacunación", 
+        350.00, 20);
+
+        
+        Consulta consulta = new Consulta(vet, mascota, servicio, 
+            "2026-02-11");
+
+        
+        System.out.println("=== Datos de la Mascota ===");
+        System.out.println("Nombre: " + mascota.getNombreM());
+        System.out.println("Especie: " + mascota.getEspecie());
+        System.out.println("Edad: " + mascota.getEdad() + " años");
+        System.out.println("Peso: " + mascota.getPeso() + " kg");
+        System.out.println("Dueño: " + mascota.getDueño().getNombreD());
+
+        System.out.println("\n=== Datos del Veterinario ===");
+        System.out.println("Nombre: " + vet.getNombreV());
+        System.out.println("Especialidad: " + vet.getEspecialidad());
+        System.out.println("Experiencia: " + vet.getAñosDE() + " años");
+
+        System.out.println("\n=== Consulta Realizada ===");
+        System.out.println("Fecha: " + consulta.getFecha());
+        System.out.println("Servicio: " + consulta.getServicio().getNomServi());
+        System.out.println("Costo: $" + consulta.getCostoTotal());
+    }
 }
+
+
 
 class Mascota {
     private String nombreM;
     private String especie;
     private int edad;
-    private int peso;
+    private double peso;
     private Dueño dueño;
 
-    // Constructor vacío
-    public Mascota() {
-    }
+    public Mascota() {}
 
-    // Constructor con parámetros
-    public Mascota(String nombreM, String especie, int edad, int peso, Dueño dueño) {
+  
+    public Mascota(String nombreM, String especie, int edad, double peso, Dueño dueño) {
         this.nombreM = nombreM;
         this.especie = especie;
         this.edad = edad;
@@ -27,205 +75,182 @@ class Mascota {
         this.dueño = dueño;
     }
 
-    // Getters y Setters
-    public String getNombreM() {
-        return nombreM;
+    public Mascota(Mascota m) {
+        this.nombreM = m.nombreM;
+        this.especie = m.especie;
+        this.edad = m.edad;
+        this.peso = m.peso;
+        this.dueño = m.dueño;
     }
 
-    public void setNombreM(String nombreM) {
-        this.nombreM = nombreM;
-    }
+    public String getNombreM() { return nombreM; }
+    public void setNombreM(String nombreM) { this.nombreM = nombreM; }
 
-    public String getEspecie() {
-        return especie;
-    }
+    public String getEspecie() { return especie; }
+    public void setEspecie(String especie) { this.especie = especie; }
 
-    public void setEspecie(String especie) {
-        this.especie = especie;
-    }
+    public int getEdad() { return edad; }
+    public void setEdad(int edad) { this.edad = edad; }
 
-    public int getEdad() {
-        return edad;
-    }
+    public double getPeso() { return peso; }
+    public void setPeso(double peso) { this.peso = peso; }
 
-    public void setEdad(int edad) {
-        this.edad = edad;
-    }
-
-    public int getPeso() {
-        return peso;
-    }
-
-    public void setPeso(int peso) {
-        this.peso = peso;
-    }
-
-    public Dueño getDueño() {
-        return dueño;
-    }
-
-    public void setDueño(Dueño dueño) {
-        this.dueño = dueño;
-    }
+    public Dueño getDueño() { return dueño; }
+    public void setDueño(Dueño dueño) { this.dueño = dueño; }
 }
-
-
 
 class Dueño {
     private String nombreD;
     private String RFC;
-    private int numero;
+    private String telefono;
     private List<Mascota> mascotas;
 
-    // Constructor vacío
     public Dueño() {
-        this.mascotas = new ArrayList<>();
+        mascotas = new ArrayList<>();
     }
 
-    // Constructor con parámetros
-    public Dueño(String nombreD, String RFC, int numero) {
+    public Dueño(String nombreD, String RFC, String telefono) {
         this.nombreD = nombreD;
         this.RFC = RFC;
-        this.numero = numero;
-        this.mascotas = new ArrayList<>();
+        this.telefono = telefono;
+        mascotas = new ArrayList<>();
     }
 
-    // Método para agregar una mascota
-    public void agregarMascota(Mascota mascota) {
-        mascotas.add(mascota);
-        mascota.setDueño(this); // relación bidireccional
+
+    public Dueño(Dueño d) {
+        this.nombreD = d.nombreD;
+        this.RFC = d.RFC;
+        this.telefono = d.telefono;
+        this.mascotas = new ArrayList<>(d.mascotas);
     }
 
-    // Getters y Setters
-    public String getNombreD() {
-        return nombreD;
+    public void agregarMascota(Mascota m) {
+        mascotas.add(m);
+        m.setDueño(this);
     }
 
-    public void setNombreD(String nombreD) {
-        this.nombreD = nombreD;
-    }
+    public String getTelefono() { return telefono; }
+    public void setTelefono(String telefono) { this.telefono = telefono; }
 
-    public String getRFC() {
-        return RFC;
-    }
-
-    public void setRFC(String RFC) {
-        this.RFC = RFC;
-    }
-
-    public int getNumero() {
-        return numero;
-    }
-
-    public void setNumero(int numero) {
-        this.numero = numero;
-    }
-
-    public List<Mascota> getMascotas() {
-        return mascotas;
-    }
-
-    public void setMascotas(List<Mascota> mascotas) {
-        this.mascotas = mascotas;
-    }
+    public String getNombreD() { return nombreD; }
 }
+
 
 class Veterinario {
     private String nombreV;
-    private int numV;
+    private String telefono; 
     private String especialidad;
     private int añosDE;
 
-    // Constructor vacío
-    public Veterinario() {
-    }
+    public Veterinario() {}
 
-    // Constructor con parámetros
-    public Veterinario(String nombreV, int numV, String especialidad, int añosDE) {
+    public Veterinario(String nombreV, String telefono, String especialidad, int añosDE) {
         this.nombreV = nombreV;
-        this.numV = numV;
+        this.telefono = telefono;
         this.especialidad = especialidad;
         this.añosDE = añosDE;
     }
 
-    // Getters y Setters
-    public String getNombreV() {
-        return nombreV;
+
+    public Veterinario(Veterinario v) {
+        this.nombreV = v.nombreV;
+        this.telefono = v.telefono;
+        this.especialidad = v.especialidad;
+        this.añosDE = v.añosDE;
     }
 
-    public void setNombreV(String nombreV) {
-        this.nombreV = nombreV;
-    }
-
-    public int getNumV() {
-        return numV;
-    }
-
-    public void setNumV(int numV) {
-        this.numV = numV;
-    }
-
-    public String getEspecialidad() {
-        return especialidad;
-    }
-
-    public void setEspecialidad(String especialidad) {
-        this.especialidad = especialidad;
-    }
-
-    public int getAñosDE() {
-        return añosDE;
-    }
-
-    public void setAñosDE(int añosDE) {
-        this.añosDE = añosDE;
-    }
+    public String getTelefono() { return telefono; }
+    public String getNombreV() { return nombreV; }
+    public String getEspecialidad() { return especialidad; }
+    public int getAñosDE() { return añosDE; }
 }
 
 
 class Servicio {
     private String nomServi;
-    private int precio;
+    private double precio;
     private int min;
 
-    // Constructor vacío
-    public Servicio() {
-    }
+    public Servicio() {}
 
-    // Constructor con parámetros
-    public Servicio(String nomServi, int precio, int min) {
+    public Servicio(String nomServi, double precio, int min) {
         this.nomServi = nomServi;
         this.precio = precio;
         this.min = min;
     }
 
-    // Getters y Setters
-    public String getNomServi() {
-        return nomServi;
+    public Servicio(Servicio s) {
+        this.nomServi = s.nomServi;
+        this.precio = s.precio;
+        this.min = s.min;
     }
 
-    public void setNomServi(String nomServi) {
-        this.nomServi = nomServi;
-    }
-
-    public int getPrecio() {
-        return precio;
-    }
-
-    public void setPrecio(int precio) {
-        this.precio = precio;
-    }
-
-    public int getMin() {
-        return min;
-    }
-
-    public void setMin(int min) {
-        this.min = min;
-    }
+    public String getNomServi() { return nomServi; }
+    public double getPrecio() { return precio; }
 }
 
 
 class Consulta {
-    
+    private Veterinario veterinario;
+    private Mascota mascota;
+    private Servicio servicio;
+    private String fecha;
+    private double costoTotal;
+
+    public Consulta() {
+    }
+
+    public Consulta(Veterinario veterinario, Mascota mascota, Servicio servicio, String fecha) {
+        this.veterinario = veterinario;
+        this.mascota = mascota;
+        this.servicio = servicio;
+        this.fecha = fecha;
+        this.costoTotal = servicio.getPrecio(); 
+    }
+
+    public void calcularCosto() {
+        this.costoTotal = servicio.getPrecio();
+    }
+
+
+    public Veterinario getVeterinario() {
+        return veterinario;
+    }
+
+    public void setVeterinario(Veterinario veterinario) {
+        this.veterinario = veterinario;
+    }
+
+    public Mascota getMascota() {
+        return mascota;
+    }
+
+    public void setMascota(Mascota mascota) {
+        this.mascota = mascota;
+    }
+
+    public Servicio getServicio() {
+        return servicio;
+    }
+
+    public void setServicio(Servicio servicio) {
+        this.servicio = servicio;
+        calcularCosto();
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+
+    public double getCostoTotal() {
+        return costoTotal;
+    }
+
+    public void setCostoTotal(double costoTotal) {
+        this.costoTotal = costoTotal;
+    }
 }
