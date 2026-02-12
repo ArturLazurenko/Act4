@@ -458,7 +458,8 @@ class MenuGimnasio {
                     String cercificacion = sc.nextLine();
 
                     Entrenador entrenador = new Entrenador(nombreEntre,especialidad,cercificacion);
-
+                    System.out.println("\nPlan creado correctamente.");
+                    entrenador.mostrarInfo();
 
                     break;
                 case 5:
