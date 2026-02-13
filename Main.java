@@ -1,37 +1,207 @@
 package Act4;
 
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.List;
+
 public class Main {
+
+    private static ArrayList<Alumno> listaAlumnos = new ArrayList<>();
+    private static ArrayList<Profesor> listaProfesores = new ArrayList<>();
+    private static ArrayList<Curso> listaCursos = new ArrayList<>();
+    private static ArrayList<Materia> listaMaterias = new ArrayList<>();
+
     public static void main(String[] args) {
 
-        Materia materia1 = new Materia("A","a1234",7,20);
-        Materia materia2 = new Materia("B","a4321",6,15);
-        Materia materia3 = new Materia("C","a2134",5,17);
+        Scanner sc = new Scanner(System.in);
+        int opcion;
 
-        Curso curso = new Curso("Semestre 1", materia1, materia2, materia3);
+        do {
+            System.out.println("\n=== MENÚ ESCUELA ===");
+            System.out.println("1. Administrar Alumnos");
+            System.out.println("2. Administrar Profesores");
+            System.out.println("3. Administrar Cursos");
+            System.out.println("4. Administrar Materias");
+            System.out.println("5. Salir");
+            System.out.print("Elige una opción: ");
+            opcion = sc.nextInt();
+            sc.nextLine();
 
-        Alumno alumno = new Alumno("Yo","AL12345678",19,curso);
+            switch (opcion) {
+                case 1: menuAlumnos(sc); break;
+                case 2: menuProfesores(sc); break;
+                case 3: menuCursos(sc); break;
+                case 4: menuMaterias(sc); break;
+            }
 
-        Profesor profesor = new Profesor("Profe","1234",500,materia1);
+        } while (opcion != 5);
+    }
 
-        System.out.println("=== Datos del curso ===");
-        System.out.println("Nombre: " + curso.getNombre());
-        System.out.println("Materias: " + curso.getMateria1().getNombre() + ", " + curso.getMateria2().getNombre() + ", " + curso.getMateria3().getNombre());
-        System.out.println("Creditos " + curso.calcularCreditosCurso());
-        
-        System.out.println("=== Datos del alumno ===");
-        System.out.println("Matricula: " + alumno.getMatricula());
-        System.out.println("Nombre: " + alumno.getNombre());
-        System.out.println("Edad: " + alumno.getEdad());
-        System.out.println("Curso: " + alumno.getCurso().getNombre());
+    // ================= ALUMNOS =================
+    public static void menuAlumnos(Scanner sc){
+        int op;
+        do{
+            System.out.println("\n=== MENÚ ALUMNOS ===");
+            System.out.println("1. Registrar");
+            System.out.println("2. Ver");
+            System.out.println("3. Salir");
+            op = sc.nextInt(); sc.nextLine();
 
+            switch(op){
+                case 1: registrarAlumno(sc); break;
+                case 2: verAlumnos(); break;
+            }
+        }while(op!=3);
+    }
 
-        System.out.println("=== Datos del profesor ===");
-        System.out.println("Nomina: " + profesor.getNumeroNomina());
-        System.out.println("Nombre: " + profesor.getNombre());
-        System.out.println("Sueldo x hora: " + profesor.getSueldoPorHora());
-        System.out.println("Materia: " + profesor.getMateria().getNombre());
+    public static void registrarAlumno(Scanner sc){
+        System.out.print("Matricula: ");
+        String matricula = sc.nextLine();
+
+        System.out.print("Nombre: ");
+        String nombre = sc.nextLine();
+
+        System.out.print("Edad: ");
+        int edad = sc.nextInt(); sc.nextLine();
+
+        listaAlumnos.add(new Alumno(matricula,nombre,edad,null));
+        System.out.println("Alumno registrado");
+    }
+
+    public static void verAlumnos(){
+        if(listaAlumnos.isEmpty()) System.out.println("No hay alumnos");
+        for(Alumno a: listaAlumnos){
+            System.out.println(a.getMatricula()+" | "+a.getNombre()+" | "+a.getEdad());
+        }
+    }
+
+    // ================= PROFESORES =================
+    public static void menuProfesores(Scanner sc){
+        int op;
+        do{
+            System.out.println("\n=== MENÚ PROFESORES ===");
+            System.out.println("1. Registrar");
+            System.out.println("2. Ver");
+            System.out.println("3. Salir");
+            op=sc.nextInt(); sc.nextLine();
+
+            switch(op){
+                case 1: registrarProfesor(sc); break;
+                case 2: verProfesores(); break;
+            }
+        }while(op!=3);
+    }
+
+    public static void registrarProfesor(Scanner sc){
+        System.out.print("Nomina: ");
+        String nomina=sc.nextLine();
+
+        System.out.print("Nombre: ");
+        String nombre=sc.nextLine();
+
+        System.out.print("Sueldo por hora: ");
+        double sueldo=sc.nextDouble(); sc.nextLine();
+
+        listaProfesores.add(new Profesor(nombre,nomina,sueldo,null));
+        System.out.println("Profesor registrado");
+    }
+
+    public static void verProfesores(){
+        if(listaProfesores.isEmpty()) System.out.println("No hay profesores");
+        for(Profesor p: listaProfesores){
+            System.out.println(p.getNumeroNomina()+" | "+p.getNombre());
+        }
+    }
+
+    // ================= CURSOS =================
+    public static void menuCursos(Scanner sc){
+        int op;
+        do{
+            System.out.println("\n=== MENÚ CURSOS ===");
+            System.out.println("1. Registrar");
+            System.out.println("2. Ver");
+            System.out.println("3. Agregar materia a curso");
+            System.out.println("4. Salir");
+            op=sc.nextInt(); sc.nextLine();
+
+            switch(op){
+                case 1: registrarCurso(sc); break;
+                case 2: verCursos(); break;
+                case 3: agregarMateriaACurso(sc); break;
+            }
+        }while(op!=4);
+    }
+
+    public static void registrarCurso(Scanner sc){
+        System.out.print("Nombre curso: ");
+        String nombre=sc.nextLine();
+
+        listaCursos.add(new Curso(nombre));
+        System.out.println("Curso registrado");
+    }
+
+    public static void verCursos(){
+        if(listaCursos.isEmpty()) System.out.println("No hay cursos");
+
+        for(int i=0;i<listaCursos.size();i++){
+            System.out.println(i+" - "+listaCursos.get(i).getNombre());
+            listaCursos.get(i).mostrarMaterias();
+        }
+    }
+
+    public static void agregarMateriaACurso(Scanner sc){
+        verCursos();
+        System.out.print("Indice del curso: ");
+        int i=sc.nextInt(); sc.nextLine();
+
+        verMaterias();
+        System.out.print("Indice materia: ");
+        int j=sc.nextInt(); sc.nextLine();
+
+        listaCursos.get(i).agregarMateria(listaMaterias.get(j));
+        System.out.println("Materia agregada al curso");
+    }
+
+    // ================= MATERIAS =================
+    public static void menuMaterias(Scanner sc){
+        int op;
+        do{
+            System.out.println("\n=== MENÚ MATERIAS ===");
+            System.out.println("1. Registrar");
+            System.out.println("2. Ver");
+            System.out.println("3. Salir");
+            op=sc.nextInt(); sc.nextLine();
+
+            switch(op){
+                case 1: registrarMateria(sc); break;
+                case 2: verMaterias(); break;
+            }
+        }while(op!=3);
+    }
+
+    public static void registrarMateria(Scanner sc){
+        System.out.print("Nombre: ");
+        String nombre=sc.nextLine();
+
+        System.out.print("Clave: ");
+        String clave=sc.nextLine();
+
+        System.out.print("Creditos: ");
+        int creditos=sc.nextInt(); sc.nextLine();
+
+        listaMaterias.add(new Materia(nombre,clave,creditos,4));
+        System.out.println("Materia registrada");
+    }
+
+    public static void verMaterias(){
+        if(listaMaterias.isEmpty()) System.out.println("No hay materias");
+
+        for(int i=0;i<listaMaterias.size();i++){
+            System.out.println(i+" - "+listaMaterias.get(i).getNombre());
+        }
     }
 }
+
     
 class Profesor {
 
@@ -149,6 +319,7 @@ class Alumno {
 
     public Curso getCurso() { return curso; }
     public void setCurso(Curso curso) { this.curso = curso; }
+    
 }
 
 class Materia {
@@ -214,65 +385,74 @@ class Materia {
 class Curso {
 
     private String nombre;
-    private Materia materia1;
-    private Materia materia2;
-    private Materia materia3;
+    private ArrayList<Materia> materias;
 
-
+    // Constructor vacío
     public Curso() {
         this.nombre = "";
-        this.materia1 = new Materia();
-        this.materia2 = new Materia();
-        this.materia3 = new Materia();
+        this.materias = new ArrayList<>();
     }
-    public Curso(String nombre, Materia m1, Materia m2, Materia m3) {
+
+    // Constructor con nombre
+    public Curso(String nombre) {
         this.nombre = nombre;
-        this.materia1 = new Materia(m1);
-        this.materia2 = new Materia(m2);
-        this.materia3 = new Materia(m3);
+        this.materias = new ArrayList<>();
     }
 
-
+    // Constructor de copia
     public Curso(Curso c) {
         this.nombre = c.nombre;
-        this.materia1 = new Materia(c.materia1);
-        this.materia2 = new Materia(c.materia2);
-        this.materia3 = new Materia(c.materia3);
+        this.materias = new ArrayList<>();
+
+        for(Materia m : c.materias){
+            this.materias.add(new Materia(m));
+        }
     }
 
-
-    public String getNombre() { 
-        return nombre; 
-    }
-    public void setNombre(String nombre) { 
-        this.nombre = nombre; 
+    public String getNombre() {
+        return nombre;
     }
 
-    public Materia getMateria1() { 
-        return materia1; 
-    }
-    public void setMateria1(Materia materia1) { 
-        this.materia1 = materia1; 
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public Materia getMateria2() { 
-        return materia2; 
-    }
-    public void setMateria2(Materia materia2) { 
-        this.materia2 = materia2; 
+    public ArrayList<Materia> getMaterias() {
+        return materias;
     }
 
-    public Materia getMateria3() { 
-        return materia3; 
-    }
-    public void setMateria3(Materia materia3) { 
-        this.materia3 = materia3; 
+    public void setMaterias(ArrayList<Materia> materias) {
+        this.materias = materias;
     }
 
+    public void agregarMateria(Materia m) {
+        materias.add(m);
+    }
+
+    public void eliminarMateria(String nombreMateria) {
+        materias.removeIf(m -> m.getNombre().equalsIgnoreCase(nombreMateria));
+    }
+
+    public void mostrarMaterias() {
+        if(materias.isEmpty()) {
+            System.out.println("No hay materias en el curso");
+            return;
+        }
+
+        for(Materia m : materias) {
+            System.out.println("Materia: " + m.getNombre() +
+                               " | Clave: " + m.getClave() +
+                               " | Créditos: " + m.getCreditos());
+        }
+    }
 
     public int calcularCreditosCurso() {
-        return materia1.getCreditos() +
-               materia2.getCreditos() +
-               materia3.getCreditos();
+        int total = 0;
+
+        for(Materia m : materias) {
+            total += m.getCreditos();
+        }
+
+        return total;
     }
 }
